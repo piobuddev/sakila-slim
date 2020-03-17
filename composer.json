@@ -1,26 +1,16 @@
 {
-    "name": "slim/slim-skeleton",
-    "description": "A Slim Framework skeleton application for rapid development",
-    "keywords": [
-        "microframework",
-        "rest",
-        "router",
-        "psr7"
-    ],
-    "homepage": "http://github.com/slimphp/Slim-Skeleton",
-    "license": "MIT",
+    "name": "piobuddev/sakila-slim",
+    "description": "Sakila application build with slim",
+    "type": "project",
     "authors": [
         {
-            "name": "Josh Lockhart",
-            "email": "info@joshlockhart.com",
-            "homepage": "http://www.joshlockhart.com/"
-        },
-        {
-            "name": "Pierre Berube",
-            "email": "pierre@lgse.com",
-            "homepage": "http://www.lgse.com/"
+            "name": "Piotr Budny",
+            "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/piobuddev/sakila-slim.git",
+    "license": "MIT",
+    "minimum-stability": "dev",
     "repositories": [
         {
             "type": "git",
