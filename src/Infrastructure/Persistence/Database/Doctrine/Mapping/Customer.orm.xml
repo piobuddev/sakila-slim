@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Sakila\Domain\Entity\Customer" table="customer">
+    <indexes>
+      <index name="idx_fk_store_id" columns="store_id"/>
+      <index name="idx_fk_address_id" columns="address_id"/>
+      <index name="idx_last_name" columns="last_name"/>
+    </indexes>
+    <id name="customerId" type="integer" column="customer_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="firstName" type="string" column="first_name" length="45" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastName" type="string" column="last_name" length="45" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="email" type="string" column="email" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="active" type="smallint" column="active" nullable="false">
+      <options>
+        <option name="default">1</option>
+      </options>
+    </field>
+    <field name="createDate" type="datetime" column="create_date" nullable="false"/>
+    <field name="lastUpdate" type="datetime" column="last_update" nullable="false">
+      <options>
+        <option name="default">CURRENT_TIMESTAMP</option>
+      </options>
+    </field>
+    <field name="addressId" type="integer" column="address_id"/>
+    <field name="storeId" type="integer" column="store_id"/>
+    <many-to-one field="address" target-entity="Address" fetch="LAZY">
+      <join-columns>
+        <join-column name="address_id" referenced-column-name="address_id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="store" target-entity="Store" fetch="LAZY">
+      <join-columns>
+        <join-column name="store_id" referenced-column-name="store_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

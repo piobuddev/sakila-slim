@@ -1,0 +1,13 @@
+default:
+  suites:
+    default:
+      paths: [ vendor/piobuddev/sakila/features ]
+      contexts:
+        - WebApi\Context\Contexts\HttpClientContext: ~
+        - WebApi\Context\Contexts\RepositoryContext: ~
+  extensions:
+      WebApi\ServiceContainer\WebApiExtension:
+          http_client:
+              base_uri: 'https://sakila-slim.local'
+          repository_tester:
+              definitions_path: config/database/factories

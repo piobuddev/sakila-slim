@@ -1,0 +1,8 @@
+parameters:
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
+	excludes_analyse:
+		- src/Domain/Entity
+	ignoreErrors:
+		- '/Parameter #1 \$argument of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, string given/'
+		- '/Constant APP_PATH not found/'

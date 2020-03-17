@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Sakila\Domain\Entity\Film" table="film">
+    <indexes>
+      <index name="idx_title" columns="title"/>
+      <index name="idx_fk_language_id" columns="language_id"/>
+      <index name="idx_fk_original_language_id" columns="original_language_id"/>
+    </indexes>
+    <id name="filmId" type="integer" column="film_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="title" type="string" column="title" length="255" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="description" type="text" column="description" length="65535" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="releaseYear" type="string" length="4" column="release_year" nullable="true"/>
+    <field name="rentalDuration" type="smallint" column="rental_duration" nullable="false">
+      <options>
+        <option name="default">3</option>
+      </options>
+    </field>
+    <field name="rentalRate" type="decimal" column="rental_rate" precision="4" scale="2" nullable="false">
+      <options>
+        <option name="default">4.99</option>
+      </options>
+    </field>
+    <field name="length" type="smallint" column="length" nullable="true">
+      <options>
+        <option name="unsigned">1</option>
+      </options>
+    </field>
+    <field name="replacementCost" type="decimal" column="replacement_cost" precision="5" scale="2" nullable="false">
+      <options>
+        <option name="default">19.99</option>
+      </options>
+    </field>
+    <field name="rating" type="string" column="rating" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+        <option name="default">G</option>
+      </options>
+    </field>
+    <field name="specialFeatures" type="simple_array" column="special_features" length="0" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastUpdate" type="datetime" column="last_update" nullable="false">
+      <options>
+        <option name="default">CURRENT_TIMESTAMP</option>
+      </options>
+    </field>
+    <field name="languageId" type="integer" column="language_id"/>
+    <many-to-one field="language" target-entity="Language" fetch="LAZY">
+      <join-columns>
+        <join-column name="language_id" referenced-column-name="language_id"/>
+      </join-columns>
+    </many-to-one>
+    <field name="originalLanguageId" type="integer" column="original_language_id"/>
+    <many-to-one field="originalLanguage" target-entity="Language" fetch="LAZY">
+      <join-columns>
+        <join-column name="original_language_id" referenced-column-name="language_id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="actor" target-entity="Actor" mapped-by="film" fetch="LAZY"/>
+    <many-to-many field="category" target-entity="Category" inversed-by="film" fetch="LAZY">
+      <join-table name="film_category">
+        <join-columns>
+          <join-column name="film_id" referenced-column-name="film_id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="category_id" referenced-column-name="category_id"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

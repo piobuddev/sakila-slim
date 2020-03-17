@@ -1,0 +1,83 @@
+{
+    "name": "slim/slim-skeleton",
+    "description": "A Slim Framework skeleton application for rapid development",
+    "keywords": [
+        "microframework",
+        "rest",
+        "router",
+        "psr7"
+    ],
+    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Lockhart",
+            "email": "info@joshlockhart.com",
+            "homepage": "http://www.joshlockhart.com/"
+        },
+        {
+            "name": "Pierre Berube",
+            "email": "pierre@lgse.com",
+            "homepage": "http://www.lgse.com/"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/piobuddev/sakila.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/piobuddev/behat-webapi-extension.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/piobuddev/repository-tester.git"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "doctrine/orm": "^2.7",
+        "league/fractal": "^0.19.2",
+        "monolog/monolog": "^1.24",
+        "php-di/php-di": "^6.0",
+        "piobuddev/sakila": "^1.0",
+        "slim/psr7": "^0.6",
+        "slim/slim": "^4.1",
+        "symfony/validator": "^4.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12",
+        "piobuddev/behat-webapi-extension": "*",
+        "piobuddev/repository-tester": "*",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Sakila\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public",
+        "phpstan": "vendor/bin/phpstan analyse -l 7 app src tests",
+        "phpcs": "vendor/bin/phpcs --standard=PSR2 --extensions=php --colors --severity=1 app src tests",
+        "phpcbf": "vendor/bin/phpcbf --standard=PSR2 --extensions=php --colors --severity=1 app src tests",
+        "behat": "vendor/bin/behat --colors",
+        "test": [
+            "@phpstan",
+            "@phpcs",
+            "@behat",
+            "phpunit"
+        ]
+    }
+}

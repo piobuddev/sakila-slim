@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Sakila\Domain\Entity\Address" table="address">
+    <indexes>
+      <index name="idx_fk_city_id" columns="city_id"/>
+    </indexes>
+    <id name="addressId" type="integer" column="address_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="address" type="string" column="address" length="50" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="cityId" type="integer" column="city_id"/>
+    <field name="address2" type="string" column="address2" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="district" type="string" column="district" length="20" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="postalCode" type="string" column="postal_code" length="10" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="phone" type="string" column="phone" length="20" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastUpdate" type="datetime" column="last_update" nullable="false">
+      <options>
+        <option name="default">CURRENT_TIMESTAMP</option>
+      </options>
+    </field>
+    <many-to-one field="city" target-entity="City" fetch="LAZY">
+      <join-columns>
+        <join-column name="city_id" referenced-column-name="city_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

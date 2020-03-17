@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Sakila\Domain\Entity\City" table="city">
+    <indexes>
+      <index name="idx_fk_country_id" columns="country_id"/>
+    </indexes>
+    <id name="cityId" type="integer" column="city_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="city" type="string" column="city" length="50" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="lastUpdate" type="datetime" column="last_update" nullable="false">
+      <options>
+        <option name="default">CURRENT_TIMESTAMP</option>
+      </options>
+    </field>
+    <field name="countryId" type="integer" column="country_id"/>
+    <many-to-one field="country" target-entity="Country" fetch="LAZY">
+      <join-columns>
+        <join-column name="country_id" referenced-column-name="country_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

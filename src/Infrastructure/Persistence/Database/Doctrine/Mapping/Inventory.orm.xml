@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Sakila\Domain\Entity\Inventory" table="inventory">
+    <indexes>
+      <index name="idx_fk_film_id" columns="film_id"/>
+      <index name="idx_store_id_film_id" columns="store_id,film_id"/>
+      <index name="IDX_B12D4A36B092A811" columns="store_id"/>
+    </indexes>
+    <id name="inventoryId" type="integer" column="inventory_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="lastUpdate" type="datetime" column="last_update" nullable="false">
+      <options>
+        <option name="default">CURRENT_TIMESTAMP</option>
+      </options>
+    </field>
+    <field name="filmId" type="integer" column="film_id"/>
+    <field name="storeId" type="integer" column="store_id"/>
+    <many-to-one field="film" target-entity="Film" fetch="LAZY">
+      <join-columns>
+        <join-column name="film_id" referenced-column-name="film_id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="store" target-entity="Store" fetch="LAZY">
+      <join-columns>
+        <join-column name="store_id" referenced-column-name="store_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
