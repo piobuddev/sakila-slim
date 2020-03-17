@@ -1,20 +1,36 @@
-# Slim Framework 4 Skeleton Application
+# Sakila-symfony
 
-[![Coverage Status](https://coveralls.io/repos/github/slimphp/Slim-Skeleton/badge.svg?branch=master)](https://coveralls.io/github/slimphp/Slim-Skeleton?branch=master)
+CRUD API for the MySql "Sakila" database schema build with Slim Framework, domain logic based in separate project `piobuddev/sakila`.
+This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
+## Development setup:
+### Getting Started
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Install the Application
+### Prerequisites
+* PHP >= `7.4`
+* [Composer](https://getcomposer.org/): tool for dependency management in PHP
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+### Installing
 
-```bash
-composer create-project slim/slim-skeleton [my-app-name]
+To get the development environment running clone the repository and run the composer.
+Run this command from the directory in which you want to install your application.
+
+```sh
+$ git clone git@github.com:piobuddev/sakila-slim.git
+$ cd sakila-slim/
+$ cp .env.dist .env
+$ composer install
 ```
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+```sh
+$ echo `127.0.0.1    sakila-slim.local` >> /etc/hosts
+```
+
+Update `.env` and `.env_testing` with DB connection details
+
+Swagger documentation available at `https://sakila-slim.local/docs`
 
 * Point your virtual host document root to your new application's `public/` directory.
 * Ensure `logs/` is web writable.
@@ -26,17 +42,61 @@ cd [my-app-name]
 composer start
 ```
 
-Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
-```bash
-cd [my-app-name]
-docker-compose up -d
+## Running the tests
+
+### Coding style tests
+##### PHPStan : PHP Static Analysis Tool
+
+```sh
+$ vendor/bin/phpstan analyse -l 7 src tests -c phpstan.neon
 ```
-After that, open `http://localhost:8080` in your browser.
+##### PHPCS : Detects violations of a defined set of coding standards
 
-Run this command in the application directory to run the test suite
-
-```bash
-composer test
+```sh
+$ vendor/bin/phpcs --standard=PSR2 --extensions=php --colors --severity=1 src
 ```
 
-That's it! Now go build something cool.
+##### PHPUNIT and BEHAT
+```sh
+$ vendor\bin\phpunit --no-coverage
+$ vendor\bin\behat --colors
+```
+
+or run all tests together with:
+```sh
+$ composer test
+```
+
+Additionaly you can fix code formatting with:
+##### PHPCBF : PHP Code Beautifier and Fixer
+
+```sh
+$ vendor/bin/phpcbf --standard=PSR2 --extensions=php --colors --severity=1 src
+```
+
+## Built With
+* [Slim](http://www.slimframework.com/) Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs.
+* [Fractal](https://fractal.thephpleague.com/) - A presentation and transformation layer for complex data output
+* [Doctrine DBAL](https://www.doctrine-project.org/projects/orm.html) - A powerful database abstraction layer
+* [piobuddev/sakila](https://github.com/piobuddev/sakila) - Domain logic
+* [piobuddev/repository-tester](https://github.com/piobuddev/repository-tester) - Helper that provides a simple api to create a fake data and perform a database operations.
+* [piobuddev/behat-webapi-extension](https://github.com/piobuddev/behat-webapi-extension) -  Web Api extension for Behat helps with performing http requests and interacting with a database.
+
+## Code Style
+* [PSR2](https://www.php-fig.org/psr/psr-2/)
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/piobuddev/c04b7341f68da9718907cb593012d746) for details on my code of conduct, and the process for submitting pull requests to me.
+
+## Versioning
+
+I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/piobuddev/sakila-slim/tags). 
+
+## Authors
+
+* **Piotr Budny** - [piobuddev](https://github.com/piobuddev)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/piobuddev/sakila-slim/blob/master/LICENSE.md) file for details
