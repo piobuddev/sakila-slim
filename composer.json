@@ -35,7 +35,8 @@
         "piobuddev/sakila": "^1.0",
         "slim/psr7": "^0.6",
         "slim/slim": "^4.1",
-        "symfony/validator": "^4.0"
+        "symfony/validator": "^4.0",
+        "symfony/dotenv": "^4.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12",

@@ -25,6 +25,7 @@ use Sakila\Transformer\Transformer;
 
 use function DI\autowire;
 use function DI\create;
+use function DI\env;
 use function DI\factory;
 use function DI\get;
 
@@ -34,10 +35,10 @@ return function (ContainerBuilder $containerBuilder) {
         ->addDefinitions([
             'doctrine' => [
                 'driver'   => 'pdo_mysql',
-                'host'     => 'mysql',
-                'dbname'   => 'sakila_test',
-                'user'     => 'test',
-                'password' => 'test'
+                'host'     => env('DB_HOST'),
+                'dbname'   => env('DB_DATABASE'),
+                'user'     => env('DB_USERNAME'),
+                'password' => env('DB_PASSWORD')
             ],
             LoggerInterface::class => factory([LoggerFactory::class, 'create'])->parameter('settings', get('settings')),
             ConnectionInterface::class => DI\autowire(Connection::class),

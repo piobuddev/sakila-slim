@@ -8,10 +8,14 @@ use Sakila\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
+use Symfony\Component\Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 define('APP_PATH', dirname(realpath(__DIR__)));
+
+$dotenv = new Dotenv(true);
+$dotenv->load(APP_PATH . '/.env');
 
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
