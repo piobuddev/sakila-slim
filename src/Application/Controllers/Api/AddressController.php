@@ -7,13 +7,13 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Sakila\Command\Bus\CommandBus;
-use Sakila\Domain\Actor\Service\Request\AddActorRequest;
-use Sakila\Domain\Actor\Service\Request\RemoveActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorsRequest;
-use Sakila\Domain\Actor\Service\Request\UpdateActorRequest;
+use Sakila\Domain\Address\Service\Request\AddAddressRequest;
+use Sakila\Domain\Address\Service\Request\RemoveAddressRequest;
+use Sakila\Domain\Address\Service\Request\ShowAddressRequest;
+use Sakila\Domain\Address\Service\Request\ShowAddressesRequest;
+use Sakila\Domain\Address\Service\Request\UpdateAddressRequest;
 
-class ActorController extends AbstractController
+class AddressController extends AbstractController
 {
     /**
      * @var \Sakila\Command\Bus\CommandBus
@@ -29,15 +29,15 @@ class ActorController extends AbstractController
     }
 
     /**
-     * @param int $actorId
+     * @param int $addressId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(int $actorId): Response
+    public function show(int $addressId): Response
     {
-        $actor = $this->commandBus->execute(new ShowActorRequest($actorId));
+        $address = $this->commandBus->execute(new ShowAddressRequest($addressId));
 
-        return $this->response($actor);
+        return $this->response($address);
     }
 
     /**
@@ -50,9 +50,9 @@ class ActorController extends AbstractController
         $queryParams = $request->getQueryParams();
         $page = (int)($queryParams['page'] ?? self::DEFAULT_PAGE);
         $pageSize = (int)($queryParams['page_size'] ?? self::DEFAULT_PAGE_SIZE);
-        $actors = $this->commandBus->execute(new ShowActorsRequest($page, $pageSize));
+        $addresses = $this->commandBus->execute(new ShowAddressesRequest($page, $pageSize));
 
-        return $this->response($actors);
+        return $this->response($addresses);
     }
 
     /**
@@ -63,33 +63,33 @@ class ActorController extends AbstractController
     public function store(Request $request): Response
     {
         $data  = (array)$request->getParsedBody();
-        $actor = $this->commandBus->execute(new AddActorRequest($data));
+        $address = $this->commandBus->execute(new AddAddressRequest($data));
 
-        return $this->response($actor, StatusCodeInterface::STATUS_CREATED);
+        return $this->response($address, StatusCodeInterface::STATUS_CREATED);
     }
 
     /**
-     * @param int                                      $actorId
+     * @param int                                      $addressId
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(int $actorId, Request $request): Response
+    public function update(int $addressId, Request $request): Response
     {
         $data = json_decode((string)$request->getBody(), true);
-        $actor = $this->commandBus->execute(new UpdateActorRequest($actorId, $data));
+        $address = $this->commandBus->execute(new UpdateAddressRequest($addressId, $data));
 
-        return $this->response($actor);
+        return $this->response($address);
     }
 
     /**
-     * @param int $actorId
+     * @param int $addressId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function destroy(int $actorId): Response
+    public function destroy(int $addressId): Response
     {
-        $this->commandBus->execute(new RemoveActorRequest($actorId));
+        $this->commandBus->execute(new RemoveAddressRequest($addressId));
 
         return $this->response();
     }

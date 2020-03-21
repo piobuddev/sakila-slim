@@ -33,7 +33,7 @@ class AbstractController
      */
     protected function response($data = null, $code = StatusCodeInterface::STATUS_OK): Response
     {
-        $data = (string)json_encode($data, JSON_PRETTY_PRINT);
+        $data = (string)json_encode($data);
         $this->response->getBody()->write($data);
 
         return $this->response

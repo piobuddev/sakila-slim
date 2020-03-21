@@ -4,3 +4,4 @@
 /logs/*
 !/logs/README.md
 .env
+/src/Infrastructure/Persistence/Database/Doctrine/Mapping/Proxies

@@ -8,6 +8,8 @@
     <id name="staffId" type="integer" column="staff_id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="addressId" type="integer" column="address_id"/>
+    <field name="storeId" type="integer" column="store_id"/>
     <field name="firstName" type="string" column="first_name" length="45" nullable="false">
       <options>
         <option name="fixed"/>

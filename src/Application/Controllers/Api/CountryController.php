@@ -7,13 +7,13 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Sakila\Command\Bus\CommandBus;
-use Sakila\Domain\Actor\Service\Request\AddActorRequest;
-use Sakila\Domain\Actor\Service\Request\RemoveActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorsRequest;
-use Sakila\Domain\Actor\Service\Request\UpdateActorRequest;
+use Sakila\Domain\Country\Service\Request\AddCountryRequest;
+use Sakila\Domain\Country\Service\Request\RemoveCountryRequest;
+use Sakila\Domain\Country\Service\Request\ShowCountryRequest;
+use Sakila\Domain\Country\Service\Request\ShowCountriesRequest;
+use Sakila\Domain\Country\Service\Request\UpdateCountryRequest;
 
-class ActorController extends AbstractController
+class CountryController extends AbstractController
 {
     /**
      * @var \Sakila\Command\Bus\CommandBus
@@ -29,15 +29,15 @@ class ActorController extends AbstractController
     }
 
     /**
-     * @param int $actorId
+     * @param int $countryId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(int $actorId): Response
+    public function show(int $countryId): Response
     {
-        $actor = $this->commandBus->execute(new ShowActorRequest($actorId));
+        $country = $this->commandBus->execute(new ShowCountryRequest($countryId));
 
-        return $this->response($actor);
+        return $this->response($country);
     }
 
     /**
@@ -50,9 +50,9 @@ class ActorController extends AbstractController
         $queryParams = $request->getQueryParams();
         $page = (int)($queryParams['page'] ?? self::DEFAULT_PAGE);
         $pageSize = (int)($queryParams['page_size'] ?? self::DEFAULT_PAGE_SIZE);
-        $actors = $this->commandBus->execute(new ShowActorsRequest($page, $pageSize));
+        $countries = $this->commandBus->execute(new ShowCountriesRequest($page, $pageSize));
 
-        return $this->response($actors);
+        return $this->response($countries);
     }
 
     /**
@@ -63,33 +63,33 @@ class ActorController extends AbstractController
     public function store(Request $request): Response
     {
         $data  = (array)$request->getParsedBody();
-        $actor = $this->commandBus->execute(new AddActorRequest($data));
+        $country = $this->commandBus->execute(new AddCountryRequest($data));
 
-        return $this->response($actor, StatusCodeInterface::STATUS_CREATED);
+        return $this->response($country, StatusCodeInterface::STATUS_CREATED);
     }
 
     /**
-     * @param int                                      $actorId
+     * @param int                                      $countryId
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(int $actorId, Request $request): Response
+    public function update(int $countryId, Request $request): Response
     {
         $data = json_decode((string)$request->getBody(), true);
-        $actor = $this->commandBus->execute(new UpdateActorRequest($actorId, $data));
+        $country = $this->commandBus->execute(new UpdateCountryRequest($countryId, $data));
 
-        return $this->response($actor);
+        return $this->response($country);
     }
 
     /**
-     * @param int $actorId
+     * @param int $countryId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function destroy(int $actorId): Response
+    public function destroy(int $countryId): Response
     {
-        $this->commandBus->execute(new RemoveActorRequest($actorId));
+        $this->commandBus->execute(new RemoveCountryRequest($countryId));
 
         return $this->response();
     }

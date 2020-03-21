@@ -7,13 +7,13 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Sakila\Command\Bus\CommandBus;
-use Sakila\Domain\Actor\Service\Request\AddActorRequest;
-use Sakila\Domain\Actor\Service\Request\RemoveActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorsRequest;
-use Sakila\Domain\Actor\Service\Request\UpdateActorRequest;
+use Sakila\Domain\Inventory\Service\Request\AddInventoryRequest;
+use Sakila\Domain\Inventory\Service\Request\RemoveInventoryRequest;
+use Sakila\Domain\Inventory\Service\Request\ShowInventoryRequest;
+use Sakila\Domain\Inventory\Service\Request\ShowInventoriesRequest;
+use Sakila\Domain\Inventory\Service\Request\UpdateInventoryRequest;
 
-class ActorController extends AbstractController
+class InventoryController extends AbstractController
 {
     /**
      * @var \Sakila\Command\Bus\CommandBus
@@ -29,15 +29,15 @@ class ActorController extends AbstractController
     }
 
     /**
-     * @param int $actorId
+     * @param int $inventoryId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(int $actorId): Response
+    public function show(int $inventoryId): Response
     {
-        $actor = $this->commandBus->execute(new ShowActorRequest($actorId));
+        $inventory = $this->commandBus->execute(new ShowInventoryRequest($inventoryId));
 
-        return $this->response($actor);
+        return $this->response($inventory);
     }
 
     /**
@@ -50,9 +50,9 @@ class ActorController extends AbstractController
         $queryParams = $request->getQueryParams();
         $page = (int)($queryParams['page'] ?? self::DEFAULT_PAGE);
         $pageSize = (int)($queryParams['page_size'] ?? self::DEFAULT_PAGE_SIZE);
-        $actors = $this->commandBus->execute(new ShowActorsRequest($page, $pageSize));
+        $inventories = $this->commandBus->execute(new ShowInventoriesRequest($page, $pageSize));
 
-        return $this->response($actors);
+        return $this->response($inventories);
     }
 
     /**
@@ -63,33 +63,33 @@ class ActorController extends AbstractController
     public function store(Request $request): Response
     {
         $data  = (array)$request->getParsedBody();
-        $actor = $this->commandBus->execute(new AddActorRequest($data));
+        $inventory = $this->commandBus->execute(new AddInventoryRequest($data));
 
-        return $this->response($actor, StatusCodeInterface::STATUS_CREATED);
+        return $this->response($inventory, StatusCodeInterface::STATUS_CREATED);
     }
 
     /**
-     * @param int                                      $actorId
+     * @param int                                      $inventoryId
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(int $actorId, Request $request): Response
+    public function update(int $inventoryId, Request $request): Response
     {
         $data = json_decode((string)$request->getBody(), true);
-        $actor = $this->commandBus->execute(new UpdateActorRequest($actorId, $data));
+        $inventory = $this->commandBus->execute(new UpdateInventoryRequest($inventoryId, $data));
 
-        return $this->response($actor);
+        return $this->response($inventory);
     }
 
     /**
-     * @param int $actorId
+     * @param int $inventoryId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function destroy(int $actorId): Response
+    public function destroy(int $inventoryId): Response
     {
-        $this->commandBus->execute(new RemoveActorRequest($actorId));
+        $this->commandBus->execute(new RemoveInventoryRequest($inventoryId));
 
         return $this->response();
     }

@@ -7,13 +7,13 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Sakila\Command\Bus\CommandBus;
-use Sakila\Domain\Actor\Service\Request\AddActorRequest;
-use Sakila\Domain\Actor\Service\Request\RemoveActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorsRequest;
-use Sakila\Domain\Actor\Service\Request\UpdateActorRequest;
+use Sakila\Domain\Category\Service\Request\AddCategoryRequest;
+use Sakila\Domain\Category\Service\Request\RemoveCategoryRequest;
+use Sakila\Domain\Category\Service\Request\ShowCategoryRequest;
+use Sakila\Domain\Category\Service\Request\ShowCategoriesRequest;
+use Sakila\Domain\Category\Service\Request\UpdateCategoryRequest;
 
-class ActorController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @var \Sakila\Command\Bus\CommandBus
@@ -29,15 +29,15 @@ class ActorController extends AbstractController
     }
 
     /**
-     * @param int $actorId
+     * @param int $categoryId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(int $actorId): Response
+    public function show(int $categoryId): Response
     {
-        $actor = $this->commandBus->execute(new ShowActorRequest($actorId));
+        $category = $this->commandBus->execute(new ShowCategoryRequest($categoryId));
 
-        return $this->response($actor);
+        return $this->response($category);
     }
 
     /**
@@ -50,9 +50,9 @@ class ActorController extends AbstractController
         $queryParams = $request->getQueryParams();
         $page = (int)($queryParams['page'] ?? self::DEFAULT_PAGE);
         $pageSize = (int)($queryParams['page_size'] ?? self::DEFAULT_PAGE_SIZE);
-        $actors = $this->commandBus->execute(new ShowActorsRequest($page, $pageSize));
+        $categories = $this->commandBus->execute(new ShowCategoriesRequest($page, $pageSize));
 
-        return $this->response($actors);
+        return $this->response($categories);
     }
 
     /**
@@ -63,33 +63,33 @@ class ActorController extends AbstractController
     public function store(Request $request): Response
     {
         $data  = (array)$request->getParsedBody();
-        $actor = $this->commandBus->execute(new AddActorRequest($data));
+        $category = $this->commandBus->execute(new AddCategoryRequest($data));
 
-        return $this->response($actor, StatusCodeInterface::STATUS_CREATED);
+        return $this->response($category, StatusCodeInterface::STATUS_CREATED);
     }
 
     /**
-     * @param int                                      $actorId
+     * @param int                                      $categoryId
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(int $actorId, Request $request): Response
+    public function update(int $categoryId, Request $request): Response
     {
         $data = json_decode((string)$request->getBody(), true);
-        $actor = $this->commandBus->execute(new UpdateActorRequest($actorId, $data));
+        $category = $this->commandBus->execute(new UpdateCategoryRequest($categoryId, $data));
 
-        return $this->response($actor);
+        return $this->response($category);
     }
 
     /**
-     * @param int $actorId
+     * @param int $categoryId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function destroy(int $actorId): Response
+    public function destroy(int $categoryId): Response
     {
-        $this->commandBus->execute(new RemoveActorRequest($actorId));
+        $this->commandBus->execute(new RemoveCategoryRequest($categoryId));
 
         return $this->response();
     }

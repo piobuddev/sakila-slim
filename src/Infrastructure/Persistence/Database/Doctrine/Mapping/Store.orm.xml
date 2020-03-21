@@ -10,6 +10,8 @@
     <id name="storeId" type="integer" column="store_id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="addressId" type="integer" column="address_id"/>
+    <field name="managerStaffId" type="integer" column="manager_staff_id"/>
     <field name="lastUpdate" type="datetime" column="last_update" nullable="false">
       <options>
         <option name="default">CURRENT_TIMESTAMP</option>

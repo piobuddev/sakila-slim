@@ -39,7 +39,7 @@ class HttpErrorHandler extends SlimErrorHandler
     {
         $exception = $this->exception;
 
-        $this->logger->error($exception->getTraceAsString());
+        $this->logger->error($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
 
         $statusCode = StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR;
         $payload    = [

@@ -11,10 +11,82 @@ use Sakila\Domain\Actor\Entity\Transformer\ActorTransformerInterface;
 use Sakila\Domain\Actor\Repository\ActorRepository as ActorRepositoryInterface;
 use Sakila\Domain\Actor\Repository\Database\ActorRepository;
 use Sakila\Domain\Actor\Validator\ActorValidator as ActorValidatorInterface;
+use Sakila\Domain\Address\Entity\Transformer\AddressTransformerInterface;
+use Sakila\Domain\Address\Repository\AddressRepository as AddressRepositoryInterface;
+use Sakila\Domain\Address\Repository\Database\AddressRepository;
+use Sakila\Domain\Address\Validator\AddressValidator as AddressValidatorInterface;
+use Sakila\Domain\Category\Entity\Transformer\CategoryTransformerInterface;
+use Sakila\Domain\Category\Repository\CategoryRepository as CategoryRepositoryInterface;
+use Sakila\Domain\Category\Repository\Database\CategoryRepository;
+use Sakila\Domain\Category\Validator\CategoryValidator as CategoryValidatorInterface;
+use Sakila\Domain\City\Entity\Transformer\CityTransformerInterface;
+use Sakila\Domain\City\Repository\CityRepository as CityRepositoryInterface;
+use Sakila\Domain\City\Repository\Database\CityRepository;
+use Sakila\Domain\City\Validator\CityValidator as CityValidatorInterface;
+use Sakila\Domain\Country\Entity\Transformer\CountryTransformerInterface;
+use Sakila\Domain\Country\Repository\CountryRepository as CountryRepositoryInterface;
+use Sakila\Domain\Country\Repository\Database\CountryRepository;
+use Sakila\Domain\Country\Validator\CountryValidator as CountryValidatorInterface;
+use Sakila\Domain\Customer\Entity\Transformer\CustomerTransformerInterface;
+use Sakila\Domain\Customer\Repository\CustomerRepository as CustomerRepositoryInterface;
+use Sakila\Domain\Customer\Repository\Database\CustomerRepository;
+use Sakila\Domain\Customer\Validator\CustomerValidator as CustomerValidatorInterface;
 use Sakila\Domain\Entity\FactoryAdapter;
+use Sakila\Domain\Film\Entity\Transformer\FilmTransformerInterface;
+use Sakila\Domain\Film\Repository\Database\FilmRepository;
+use Sakila\Domain\Film\Repository\FilmRepository as FilmRepositoryInterface;
+use Sakila\Domain\Film\Validator\FilmValidator as FilmValidatorInterface;
+use Sakila\Domain\Inventory\Entity\Transformer\InventoryTransformerInterface;
+use Sakila\Domain\Inventory\Repository\Database\InventoryRepository;
+use Sakila\Domain\Inventory\Repository\InventoryRepository as InventoryRepositoryInterface;
+use Sakila\Domain\Inventory\Validator\InventoryValidator as InventoryValidatorInterface;
+use Sakila\Domain\Language\Entity\Transformer\LanguageTransformerInterface;
+use Sakila\Domain\Language\Repository\Database\LanguageRepository;
+use Sakila\Domain\Language\Repository\LanguageRepository as LanguageRepositoryInterface;
+use Sakila\Domain\Language\Validator\LanguageValidator as LanguageValidatorInterface;
+use Sakila\Domain\Payment\Entity\Transformer\PaymentTransformerInterface;
+use Sakila\Domain\Payment\Repository\Database\PaymentRepository;
+use Sakila\Domain\Payment\Repository\PaymentRepository as PaymentRepositoryInterface;
+use Sakila\Domain\Payment\Validator\PaymentValidator as PaymentValidatorInterface;
+use Sakila\Domain\Rental\Entity\Transformer\RentalTransformerInterface;
+use Sakila\Domain\Rental\Repository\Database\RentalRepository;
+use Sakila\Domain\Rental\Repository\RentalRepository as RentalRepositoryInterface;
+use Sakila\Domain\Rental\Validator\RentalValidator as RentalValidatorInterface;
+use Sakila\Domain\Staff\Entity\Transformer\StaffTransformerInterface;
+use Sakila\Domain\Staff\Repository\Database\StaffRepository;
+use Sakila\Domain\Staff\Repository\StaffRepository as StaffRepositoryInterface;
+use Sakila\Domain\Staff\Validator\StaffValidator as StaffValidatorInterface;
+use Sakila\Domain\Store\Entity\Transformer\StoreTransformerInterface;
+use Sakila\Domain\Store\Repository\Database\StoreRepository;
+use Sakila\Domain\Store\Repository\StoreRepository as StoreRepositoryInterface;
+use Sakila\Domain\Store\Validator\StoreValidator as StoreValidatorInterface;
 use Sakila\Domain\Transformers\ActorTransformer;
+use Sakila\Domain\Transformers\AddressTransformer;
+use Sakila\Domain\Transformers\CategoryTransformer;
+use Sakila\Domain\Transformers\CityTransformer;
+use Sakila\Domain\Transformers\CountryTransformer;
+use Sakila\Domain\Transformers\CustomerTransformer;
+use Sakila\Domain\Transformers\FilmTransformer;
 use Sakila\Domain\Transformers\FractalTransformerAdapter;
+use Sakila\Domain\Transformers\InventoryTransformer;
+use Sakila\Domain\Transformers\LanguageTransformer;
+use Sakila\Domain\Transformers\PaymentTransformer;
+use Sakila\Domain\Transformers\RentalTransformer;
+use Sakila\Domain\Transformers\StaffTransformer;
+use Sakila\Domain\Transformers\StoreTransformer;
 use Sakila\Domain\Validators\ActorValidator;
+use Sakila\Domain\Validators\AddressValidator;
+use Sakila\Domain\Validators\CategoryValidator;
+use Sakila\Domain\Validators\CityValidator;
+use Sakila\Domain\Validators\CountryValidator;
+use Sakila\Domain\Validators\CustomerValidator;
+use Sakila\Domain\Validators\FilmValidator;
+use Sakila\Domain\Validators\InventoryValidator;
+use Sakila\Domain\Validators\LanguageValidator;
+use Sakila\Domain\Validators\PaymentValidator;
+use Sakila\Domain\Validators\RentalValidator;
+use Sakila\Domain\Validators\StaffValidator;
+use Sakila\Domain\Validators\StoreValidator;
 use Sakila\Entity\FactoryInterface;
 use Sakila\Infrastructure\Persistence\Database\Doctrine\Connection;
 use Sakila\Infrastructure\Persistence\Database\Doctrine\EntityManagerFactory;
@@ -22,37 +94,76 @@ use Sakila\Repository\Database\ConnectionInterface;
 use Sakila\Repository\Database\Table\NameResolver;
 use Sakila\Repository\Database\Table\SimpleNameResolver;
 use Sakila\Transformer\Transformer;
-
 use function DI\autowire;
 use function DI\create;
-use function DI\env;
 use function DI\factory;
 use function DI\get;
 
 return function (ContainerBuilder $containerBuilder) {
-    $containerBuilder
-        ->useAutowiring(true)
-        ->addDefinitions([
-            'doctrine' => [
-                'driver'   => 'pdo_mysql',
-                'host'     => env('DB_HOST'),
-                'dbname'   => env('DB_DATABASE'),
-                'user'     => env('DB_USERNAME'),
-                'password' => env('DB_PASSWORD')
-            ],
+    $containerBuilder->useAutowiring(true)->addDefinitions(
+        [
             LoggerInterface::class => factory([LoggerFactory::class, 'create'])->parameter('settings', get('settings')),
             ConnectionInterface::class => DI\autowire(Connection::class),
             EntityManagerInterface::class => factory([EntityManagerFactory::class, 'create'])
-                ->parameter('connection', get('doctrine')),
+                ->parameter('connection', get('connection')),
 
-            CommandBus::class => autowire(SimpleCommandBus::class),
+            CommandBus::class       => autowire(SimpleCommandBus::class),
             FactoryInterface::class => create(FactoryAdapter::class),
-            NameResolver::class => create(SimpleNameResolver::class),
-            Manager::class     => create(),
-            Transformer::class => autowire(FractalTransformerAdapter::class),
+            NameResolver::class     => create(SimpleNameResolver::class),
+            Manager::class          => create(),
+            Transformer::class      => autowire(FractalTransformerAdapter::class),
 
             ActorValidatorInterface::class   => create(ActorValidator::class),
             ActorTransformerInterface::class => create(ActorTransformer::class),
             ActorRepositoryInterface::class  => autowire(ActorRepository::class),
-    ]);
+
+            AddressValidatorInterface::class   => create(AddressValidator::class),
+            AddressTransformerInterface::class => create(AddressTransformer::class),
+            AddressRepositoryInterface::class  => autowire(AddressRepository::class),
+
+            CategoryValidatorInterface::class   => create(CategoryValidator::class),
+            CategoryTransformerInterface::class => create(CategoryTransformer::class),
+            CategoryRepositoryInterface::class  => autowire(CategoryRepository::class),
+
+            CityValidatorInterface::class   => create(CityValidator::class),
+            CityTransformerInterface::class => create(CityTransformer::class),
+            CityRepositoryInterface::class  => autowire(CityRepository::class),
+
+            CountryValidatorInterface::class   => create(CountryValidator::class),
+            CountryTransformerInterface::class => create(CountryTransformer::class),
+            CountryRepositoryInterface::class  => autowire(CountryRepository::class),
+
+            CustomerValidatorInterface::class   => create(CustomerValidator::class),
+            CustomerTransformerInterface::class => create(CustomerTransformer::class),
+            CustomerRepositoryInterface::class  => autowire(CustomerRepository::class),
+
+            FilmValidatorInterface::class   => create(FilmValidator::class),
+            FilmTransformerInterface::class => create(FilmTransformer::class),
+            FilmRepositoryInterface::class  => autowire(FilmRepository::class),
+
+            InventoryValidatorInterface::class   => create(InventoryValidator::class),
+            InventoryTransformerInterface::class => create(InventoryTransformer::class),
+            InventoryRepositoryInterface::class  => autowire(InventoryRepository::class),
+
+            LanguageValidatorInterface::class   => create(LanguageValidator::class),
+            LanguageTransformerInterface::class => create(LanguageTransformer::class),
+            LanguageRepositoryInterface::class  => autowire(LanguageRepository::class),
+
+            PaymentValidatorInterface::class   => create(PaymentValidator::class),
+            PaymentTransformerInterface::class => create(PaymentTransformer::class),
+            PaymentRepositoryInterface::class  => autowire(PaymentRepository::class),
+
+            RentalValidatorInterface::class   => create(RentalValidator::class),
+            RentalTransformerInterface::class => create(RentalTransformer::class),
+            RentalRepositoryInterface::class  => autowire(RentalRepository::class),
+
+            StaffValidatorInterface::class   => create(StaffValidator::class),
+            StaffTransformerInterface::class => create(StaffTransformer::class),
+            StaffRepositoryInterface::class  => autowire(StaffRepository::class),
+
+            StoreValidatorInterface::class   => create(StoreValidator::class),
+            StoreTransformerInterface::class => create(StoreTransformer::class),
+            StoreRepositoryInterface::class  => autowire(StoreRepository::class),
+        ]
+    );
 };

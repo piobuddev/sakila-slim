@@ -7,13 +7,13 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Sakila\Command\Bus\CommandBus;
-use Sakila\Domain\Actor\Service\Request\AddActorRequest;
-use Sakila\Domain\Actor\Service\Request\RemoveActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorsRequest;
-use Sakila\Domain\Actor\Service\Request\UpdateActorRequest;
+use Sakila\Domain\Rental\Service\Request\AddRentalRequest;
+use Sakila\Domain\Rental\Service\Request\RemoveRentalRequest;
+use Sakila\Domain\Rental\Service\Request\ShowRentalRequest;
+use Sakila\Domain\Rental\Service\Request\ShowRentalsRequest;
+use Sakila\Domain\Rental\Service\Request\UpdateRentalRequest;
 
-class ActorController extends AbstractController
+class RentalController extends AbstractController
 {
     /**
      * @var \Sakila\Command\Bus\CommandBus
@@ -29,15 +29,15 @@ class ActorController extends AbstractController
     }
 
     /**
-     * @param int $actorId
+     * @param int $rentalId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(int $actorId): Response
+    public function show(int $rentalId): Response
     {
-        $actor = $this->commandBus->execute(new ShowActorRequest($actorId));
+        $rental = $this->commandBus->execute(new ShowRentalRequest($rentalId));
 
-        return $this->response($actor);
+        return $this->response($rental);
     }
 
     /**
@@ -50,9 +50,9 @@ class ActorController extends AbstractController
         $queryParams = $request->getQueryParams();
         $page = (int)($queryParams['page'] ?? self::DEFAULT_PAGE);
         $pageSize = (int)($queryParams['page_size'] ?? self::DEFAULT_PAGE_SIZE);
-        $actors = $this->commandBus->execute(new ShowActorsRequest($page, $pageSize));
+        $rentals = $this->commandBus->execute(new ShowRentalsRequest($page, $pageSize));
 
-        return $this->response($actors);
+        return $this->response($rentals);
     }
 
     /**
@@ -63,33 +63,33 @@ class ActorController extends AbstractController
     public function store(Request $request): Response
     {
         $data  = (array)$request->getParsedBody();
-        $actor = $this->commandBus->execute(new AddActorRequest($data));
+        $rental = $this->commandBus->execute(new AddRentalRequest($data));
 
-        return $this->response($actor, StatusCodeInterface::STATUS_CREATED);
+        return $this->response($rental, StatusCodeInterface::STATUS_CREATED);
     }
 
     /**
-     * @param int                                      $actorId
+     * @param int                                      $rentalId
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(int $actorId, Request $request): Response
+    public function update(int $rentalId, Request $request): Response
     {
         $data = json_decode((string)$request->getBody(), true);
-        $actor = $this->commandBus->execute(new UpdateActorRequest($actorId, $data));
+        $rental = $this->commandBus->execute(new UpdateRentalRequest($rentalId, $data));
 
-        return $this->response($actor);
+        return $this->response($rental);
     }
 
     /**
-     * @param int $actorId
+     * @param int $rentalId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function destroy(int $actorId): Response
+    public function destroy(int $rentalId): Response
     {
-        $this->commandBus->execute(new RemoveActorRequest($actorId));
+        $this->commandBus->execute(new RemoveRentalRequest($rentalId));
 
         return $this->response();
     }

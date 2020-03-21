@@ -3,6 +3,9 @@
 CRUD API for the MySql "Sakila" database schema build with Slim Framework, domain logic based in separate project `piobuddev/sakila`.
 This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
 
+The [Sakila Sample Database](https://dev.mysql.com/doc/sakila/en/)
+was initially developed by Mike Hillyer, a former member of the MySQL AB documentation team, and is intended to provide a standard schema that can be used for examples in books, tutorials, articles, samples, and so forth. The Sakila sample database also serves to highlight features of MySQL such as Views, Stored Procedures, and Triggers.
+
 ## Development setup:
 ### Getting Started
 

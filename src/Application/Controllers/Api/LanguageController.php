@@ -7,13 +7,13 @@ use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Sakila\Command\Bus\CommandBus;
-use Sakila\Domain\Actor\Service\Request\AddActorRequest;
-use Sakila\Domain\Actor\Service\Request\RemoveActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorRequest;
-use Sakila\Domain\Actor\Service\Request\ShowActorsRequest;
-use Sakila\Domain\Actor\Service\Request\UpdateActorRequest;
+use Sakila\Domain\Language\Service\Request\AddLanguageRequest;
+use Sakila\Domain\Language\Service\Request\RemoveLanguageRequest;
+use Sakila\Domain\Language\Service\Request\ShowLanguageRequest;
+use Sakila\Domain\Language\Service\Request\ShowLanguagesRequest;
+use Sakila\Domain\Language\Service\Request\UpdateLanguageRequest;
 
-class ActorController extends AbstractController
+class LanguageController extends AbstractController
 {
     /**
      * @var \Sakila\Command\Bus\CommandBus
@@ -29,15 +29,15 @@ class ActorController extends AbstractController
     }
 
     /**
-     * @param int $actorId
+     * @param int $languageId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function show(int $actorId): Response
+    public function show(int $languageId): Response
     {
-        $actor = $this->commandBus->execute(new ShowActorRequest($actorId));
+        $language = $this->commandBus->execute(new ShowLanguageRequest($languageId));
 
-        return $this->response($actor);
+        return $this->response($language);
     }
 
     /**
@@ -50,9 +50,9 @@ class ActorController extends AbstractController
         $queryParams = $request->getQueryParams();
         $page = (int)($queryParams['page'] ?? self::DEFAULT_PAGE);
         $pageSize = (int)($queryParams['page_size'] ?? self::DEFAULT_PAGE_SIZE);
-        $actors = $this->commandBus->execute(new ShowActorsRequest($page, $pageSize));
+        $languages = $this->commandBus->execute(new ShowLanguagesRequest($page, $pageSize));
 
-        return $this->response($actors);
+        return $this->response($languages);
     }
 
     /**
@@ -63,33 +63,33 @@ class ActorController extends AbstractController
     public function store(Request $request): Response
     {
         $data  = (array)$request->getParsedBody();
-        $actor = $this->commandBus->execute(new AddActorRequest($data));
+        $language = $this->commandBus->execute(new AddLanguageRequest($data));
 
-        return $this->response($actor, StatusCodeInterface::STATUS_CREATED);
+        return $this->response($language, StatusCodeInterface::STATUS_CREATED);
     }
 
     /**
-     * @param int                                      $actorId
+     * @param int                                      $languageId
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(int $actorId, Request $request): Response
+    public function update(int $languageId, Request $request): Response
     {
         $data = json_decode((string)$request->getBody(), true);
-        $actor = $this->commandBus->execute(new UpdateActorRequest($actorId, $data));
+        $language = $this->commandBus->execute(new UpdateLanguageRequest($languageId, $data));
 
-        return $this->response($actor);
+        return $this->response($language);
     }
 
     /**
-     * @param int $actorId
+     * @param int $languageId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function destroy(int $actorId): Response
+    public function destroy(int $languageId): Response
     {
-        $this->commandBus->execute(new RemoveActorRequest($actorId));
+        $this->commandBus->execute(new RemoveLanguageRequest($languageId));
 
         return $this->response();
     }
