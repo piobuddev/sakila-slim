@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Category\Validator\CategoryValidator as CategoryValidatorInterface;
+use Sakila\Domain\Category\Validator\CategoryValidatorInterface;
 
 class CategoryValidator extends AbstractValidator implements CategoryValidatorInterface
 {

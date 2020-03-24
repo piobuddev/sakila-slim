@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Inventory\Validator\InventoryValidator as InventoryValidatorInterface;
+use Sakila\Domain\Inventory\Validator\InventoryValidatorInterface;
 
 class InventoryValidator extends AbstractValidator implements InventoryValidatorInterface
 {

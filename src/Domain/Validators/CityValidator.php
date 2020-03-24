@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\City\Validator\CityValidator as CityValidatorInterface;
+use Sakila\Domain\City\Validator\CityValidatorInterface;
 
 class CityValidator extends AbstractValidator implements CityValidatorInterface
 {

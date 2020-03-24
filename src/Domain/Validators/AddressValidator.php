@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Address\Validator\AddressValidator as AddressValidatorInterface;
+use Sakila\Domain\Address\Validator\AddressValidatorInterface;
 
 class AddressValidator extends AbstractValidator implements AddressValidatorInterface
 {

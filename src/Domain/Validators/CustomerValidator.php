@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Customer\Validator\CustomerValidator as CustomerValidatorInterface;
+use Sakila\Domain\Customer\Validator\CustomerValidatorInterface;
 
 class CustomerValidator extends AbstractValidator implements CustomerValidatorInterface
 {

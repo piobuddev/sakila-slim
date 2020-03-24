@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Staff\Validator\StaffValidator as StaffValidatorInterface;
+use Sakila\Domain\Staff\Validator\StaffValidatorInterface;
 
 class StaffValidator extends AbstractValidator implements StaffValidatorInterface
 {

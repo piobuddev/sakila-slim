@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Language\Validator\LanguageValidator as LanguageValidatorInterface;
+use Sakila\Domain\Language\Validator\LanguageValidatorInterface;
 
 class LanguageValidator extends AbstractValidator implements LanguageValidatorInterface
 {

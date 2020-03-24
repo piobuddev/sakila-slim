@@ -5,10 +5,10 @@ namespace Sakila\Application\Command\Bus;
 
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
-use Sakila\Command\Bus\CommandBus;
-use Sakila\Command\Command;
+use Sakila\Command\Bus\CommandBusInterface;
+use Sakila\Command\CommandInterface;
 
-class SimpleCommandBus implements CommandBus
+class SimpleCommandBus implements CommandBusInterface
 {
     /**
      * @var \Psr\Container\ContainerInterface
@@ -27,7 +27,7 @@ class SimpleCommandBus implements CommandBus
      * @inheritDoc
      * @throws \ReflectionException
      */
-    public function execute(Command $command)
+    public function execute(CommandInterface $command)
     {
         $handlerClassName = self::resolveHandler(get_class($command));
         $handler = $this->container->get($handlerClassName);

@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Rental\Validator\RentalValidator as RentalValidatorInterface;
+use Sakila\Domain\Rental\Validator\RentalValidatorInterface;
 
 class RentalValidator extends AbstractValidator implements RentalValidatorInterface
 {

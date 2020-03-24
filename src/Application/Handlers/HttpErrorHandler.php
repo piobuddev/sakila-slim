@@ -26,7 +26,7 @@ class HttpErrorHandler extends SlimErrorHandler
         CallableResolverInterface $callableResolver,
         ResponseFactoryInterface $responseFactory,
         LoggerInterface $logger
-    ){
+    ) {
         $this->logger = $logger;
 
         parent::__construct($callableResolver, $responseFactory);
@@ -47,7 +47,7 @@ class HttpErrorHandler extends SlimErrorHandler
                 'code'    => $statusCode,
                 'message' => $exception->getMessage(),
             ],
-        ];;
+        ];
         $encodedPayload = (string)json_encode($payload, JSON_PRETTY_PRINT);
 
         $response = $this->responseFactory->createResponse($statusCode);

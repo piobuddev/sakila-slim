@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Store\Validator\StoreValidator as StoreValidatorInterface;
+use Sakila\Domain\Store\Validator\StoreValidatorInterface;
 
 class StoreValidator extends AbstractValidator implements StoreValidatorInterface
 {

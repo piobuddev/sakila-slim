@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Film\Validator\FilmValidator as FilmValidatorInterface;
+use Sakila\Domain\Film\Validator\FilmValidatorInterface;
 
 class FilmValidator extends AbstractValidator implements FilmValidatorInterface
 {

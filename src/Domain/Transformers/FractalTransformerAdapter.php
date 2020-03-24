@@ -11,9 +11,9 @@ use League\Fractal\Serializer\ArraySerializer;
 use Psr\Container\ContainerInterface;
 use Sakila\Application\Fractal\SimplePaginator;
 use Sakila\Entity\EntityInterface;
-use Sakila\Transformer\Transformer;
+use Sakila\Transformer\TransformerInterface;
 
-class FractalTransformerAdapter implements Transformer
+class FractalTransformerAdapter implements TransformerInterface
 {
     /**
      * @var \League\Fractal\Manager

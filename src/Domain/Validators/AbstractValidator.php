@@ -3,7 +3,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Entity\Validator\Validator;
+use Sakila\Entity\Validator\ValidatorInterface;
 use Sakila\Exceptions\UnexpectedValueException;
 use Sakila\Exceptions\Validation\ValidationException;
 use Symfony\Component\Validator\Constraints\Collection;
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validation;
 
-abstract class AbstractValidator implements Validator
+abstract class AbstractValidator implements ValidatorInterface
 {
     private const ALLOW_EXTRA_FIELDS = true;
     private const ALLOW_MISSING_FIELDS = false;

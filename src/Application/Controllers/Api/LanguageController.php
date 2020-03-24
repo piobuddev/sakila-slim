@@ -6,7 +6,7 @@ namespace Sakila\Application\Controllers\Api;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Sakila\Command\Bus\CommandBus;
+use Sakila\Command\Bus\CommandBusInterface;
 use Sakila\Domain\Language\Service\Request\AddLanguageRequest;
 use Sakila\Domain\Language\Service\Request\RemoveLanguageRequest;
 use Sakila\Domain\Language\Service\Request\ShowLanguageRequest;
@@ -16,14 +16,14 @@ use Sakila\Domain\Language\Service\Request\UpdateLanguageRequest;
 class LanguageController extends AbstractController
 {
     /**
-     * @var \Sakila\Command\Bus\CommandBus
+     * @var \Sakila\Command\Bus\CommandBusInterface
      */
-    private CommandBus $commandBus;
+    private CommandBusInterface $commandBus;
 
     /**
-     * @param \Sakila\Command\Bus\CommandBus $commandBus
+     * @param \Sakila\Command\Bus\CommandBusInterface $commandBus
      */
-    public function __construct(CommandBus $commandBus)
+    public function __construct(CommandBusInterface $commandBus)
     {
         $this->commandBus = $commandBus;
     }

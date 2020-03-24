@@ -2,7 +2,7 @@
 
 namespace Sakila\Domain\Validators;
 
-use Sakila\Domain\Payment\Validator\PaymentValidator as PaymentValidatorInterface;
+use Sakila\Domain\Payment\Validator\PaymentValidatorInterface;
 
 class PaymentValidator extends AbstractValidator implements PaymentValidatorInterface
 {
