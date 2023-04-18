@@ -33,7 +33,7 @@
         "monolog/monolog": "^1.24",
         "php-di/php-di": "^6.0",
         "piobuddev/sakila": "^1.0",
-        "slim/psr7": "^0.6",
+        "slim/psr7": "^1.6",
         "slim/slim": "^4.1",
         "symfony/validator": "^4.0",
         "symfony/dotenv": "^4.0"
